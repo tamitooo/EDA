@@ -41,3 +41,22 @@ Todos: `./run_tests.sh` (en Windows: Git Bash / WSL). Usan `<bits/stdc++.h>` (g+
 3. Rango [l,r] = `root[r]` menos `root[l-1]` (conteos/sumas se restan).
 4. Nodo 0 = nulo con todo en 0; reservar ~ (#updates * (log+1)) nodos.
 5. Distintos / primera o ultima aparicion: poner 1 en la posicion y quitar 1 en la anterior/siguiente.
+
+## Estructuras sueltas (`estructuras/`, para copiar al examen)
+Sin `main` (solo hay uno de prueba dentro de `#ifdef DEMO`). Se usan con `#include "archivo.hpp"` o pegando el contenido.
+| Archivo | Contiene |
+|---------|----------|
+| persistent_segtree.hpp | `PST`: suma/conteo, `add`, `range`, `kth`, `cntLess`; rango [lo,hi] dinamico (sirve para [0,1e9]) |
+| persistent_segtree_lazy.hpp | `PSTL`: add en rango + suma en rango con versiones |
+| persistent_trie.hpp | `BinTrie` (max xor, k-esimo xor) y `StrTrie` (prefijos) |
+| persistent_stack_queue.hpp | `PStack` y `PQueue` |
+| dsu_persistente_y_rollback.hpp | `PDSU` (online) y `RDSU` (rollback) |
+
+Probar una: `g++ -std=c++17 -DDEMO -x c++ estructuras/persistent_segtree.hpp -o t && ./t`
+Ejemplo de uso de PST por prefijos:
+```cpp
+PST t(0, M-1);            // valores comprimidos 0..M-1
+vector<int> root(n+1, 0);
+for (int i = 1; i <= n; i++) root[i] = t.add(root[i-1], id[i], 1);
+t.kth(root[r], root[l-1], k);   // k-esimo en a[l..r]
+```
